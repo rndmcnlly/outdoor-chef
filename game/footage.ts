@@ -29,8 +29,22 @@ export const TERROIR: Record<Terrain, string> = {
   path: "The Tasting Path",
 };
 
-// Undefined for events that are not worth the narrator's breath.
-export function pompous(event: GameEvent, turn: number): string | null {
+// Said when the chef picks up something he has already told us about.
+const CAMP_LOG = [
+  "Mise en place: three rocks, in order of confidence.",
+  "My spatula is a flat stick. My flat stick is a sous chef.",
+  "Tonight's special is whatever stops moving, which so far is me.",
+  "If you are finding this footage, the sauce needed acid.",
+  "The kitchen is a concept at this stage.",
+];
+
+// Null for events that are not worth the narrator's breath. Only the first of each
+// thing earns its tasting note: `seen` is how many of it the footage already holds.
+export function pompous(
+  event: GameEvent,
+  turn: number,
+  seen = 0,
+): string | null {
   switch (event.type) {
     case "moved":
       return null;
@@ -38,6 +52,9 @@ export function pompous(event: GameEvent, turn: number): string | null {
       return event.line;
     case "foraged": {
       const { name, note } = ITEMS[event.item];
+      if (seen > 0) {
+        return `${name}, again. ${CAMP_LOG[turn % CAMP_LOG.length]}`;
+      }
       const crew = turn % 3 === 0 ? ` ${CREW[(turn / 3) % CREW.length]}` : "";
       return `${name}. ${note}${crew}`;
     }

@@ -105,7 +105,7 @@ export class Hud {
   }
 
   private write(event: GameEvent, turn: number) {
-    const line = pompous(event, turn);
+    const line = pompous(event, turn, this.timesSeen(event));
     if (line) {
       element("live").textContent = line;
       this.addEntry(element("log-pompous"), `Day ${dayOf(turn)}.`, line);
@@ -115,6 +115,14 @@ export class Hud {
       String(turn).padStart(3, "0"),
       raw(event),
     );
+  }
+
+  // How many earlier clips foraged the same thing. The current one is already kept.
+  private timesSeen(event: GameEvent): number {
+    if (event.type !== "foraged") return 0;
+    return this.clips.filter(({ event: clip }) =>
+      clip.type === "foraged" && clip.item === event.item
+    ).length - 1;
   }
 
   private addEntry(list: HTMLElement, tag: string, text: string) {
