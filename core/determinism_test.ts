@@ -8,8 +8,15 @@ import {
 } from "./mod.ts";
 
 function commands(): Command[] {
-  const walk: Direction[] = ["east", "east", "south", "south", "west", "north"];
-  // A long enough walk to bump into terrain as well as cross it.
+  const walk: Direction[] = [
+    "south",
+    "south",
+    "east",
+    "south",
+    "west",
+    "north",
+  ];
+  // A long enough walk to bump into things as well as cross them.
   return Array.from({ length: 300 }, (_, i) => ({
     type: "move",
     direction: walk[(i * i + i) % walk.length],

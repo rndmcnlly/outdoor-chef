@@ -1,7 +1,16 @@
 {
-  "workspace": ["core", "game"],
+  "workspace": [
+    "core",
+    "game"
+  ],
   "nodeModulesDir": "auto",
-  "lint": { "rules": { "tags": ["recommended"] } },
+  "lint": {
+    "rules": {
+      "tags": [
+        "recommended"
+      ]
+    }
+  },
   "fmt": {
     "useTabs": false,
     "lineWidth": 80,
@@ -21,7 +30,12 @@
     "fmt:check": "deno fmt --check",
     "test": "deno test core",
     "boundary": "deno run --allow-read=core,game --allow-run=deno scripts/check-boundary.ts",
-    "ci": "deno fmt --check && deno lint && deno task check && deno task test && deno task boundary && deno task build"
+    "ci": "deno fmt --check && deno lint && deno task check && deno task test && deno task boundary && deno task build",
+    "record-run": "deno run --allow-write=core/winning_run.ts --allow-read scripts/record-run.ts"
   },
-  "exclude": ["node_modules", "dist", ".git"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".git"
+  ]
 }

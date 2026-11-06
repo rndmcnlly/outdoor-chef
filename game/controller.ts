@@ -22,14 +22,16 @@ export class Controller {
   // to read the core here. During playback, the core is ahead of what the player
   // has seen, and reading it would show the future.
   onSettled: () => void = () => {};
+  // Closed until the opening panels are done.
+  locked = true;
 
   constructor(state: GameState, presenter: Presenter) {
     this.state = state;
     this.presenter = presenter;
     presenter.onIdle = () => {
+      // Before next(), not after: a held key must not delay what the HUD learns.
+      this.onSettled();
       this.next();
-      // next() may have just started another walk.
-      if (!presenter.busy) this.onSettled();
     };
     addEventListener("keydown", (event) => this.keyDown(event));
     addEventListener("keyup", (event) => this.keyUp(event));
@@ -53,10 +55,11 @@ export class Controller {
     );
   }
 
-  private next() {
+  // Public for the opening, which may end with a key already down.
+  next() {
     // While the presenter is busy, input waits and the core hears nothing. The
     // busy state lives here in game/: the core never learns about animation.
-    if (this.presenter.busy) return;
+    if (this.presenter.busy || this.locked) return;
 
     const held = this.held.at(-1);
     const command: Command | null = this.pressed ??

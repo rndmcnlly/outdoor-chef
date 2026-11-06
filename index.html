@@ -3,23 +3,104 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>D3 project</title>
+    <title>Outdoor Chef Survival Challenge</title>
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="/game/style.css" />
   </head>
   <body>
     <main id="app">
       <div id="grid"></div>
-      <aside id="hud">
-        <dl>
-          <dt>Position</dt>
-          <dd id="position"></dd>
-          <dt>Terrain</dt>
-          <dd id="terrain"></dd>
-        </dl>
-        <p id="live" aria-live="polite"></p>
-        <button id="mute" type="button" aria-pressed="false">Sound: on</button>
+      <div id="lens" aria-hidden="true"></div>
+
+      <div id="frame" aria-hidden="true">
+        <i class="corner tl"></i><i class="corner tr"></i>
+        <i class="corner bl"></i><i class="corner br"></i>
+      </div>
+
+      <header id="cam">
+        <span class="rec"><i></i>REC</span>
+        <span id="episode"></span>
+        <span id="timecode">06:12:00</span>
+        <span id="day">DAY 1</span>
+        <span class="batt"><i class="shell"><i id="battery-level"></i></i>
+          <span id="battery-text">100%</span></span>
+        <span id="replay-badge" hidden></span>
+      </header>
+
+      <aside id="left">
+        <section id="ticket">
+          <div class="hole"></div>
+          <p class="stamp">ORDER 001 / TABLE 1</p>
+          <h2 id="ticket-title"></h2>
+          <p id="ticket-sub"></p>
+          <ul id="ticket-lines"></ul>
+          <p class="tear">Chef's note: garnish with confidence.</p>
+        </section>
+        <section id="roll">
+          <h3>Mise en Place</h3>
+          <ul id="bag"></ul>
+        </section>
       </aside>
+
+      <aside id="right">
+        <section id="logbook">
+          <div class="log-head">
+            <h3 id="log-title">Camp Log</h3>
+            <button id="footage-toggle" type="button">F: Raw Footage</button>
+          </div>
+          <ol id="log-pompous" class="log"></ol>
+          <ol id="log-raw" class="log"></ol>
+        </section>
+        <button id="mute" type="button" aria-pressed="false">Dale: on</button>
+      </aside>
+
+      <footer id="lower">
+        <div id="compass" aria-hidden="true"><i id="needle"></i></div>
+        <div>
+          <p id="order"></p>
+          <p
+            class="where"><span id="bearing"></span> <span id="place"></span></p>
+        </div>
+      </footer>
+      <p id="live" aria-live="polite"></p>
+
+      <section id="opening" hidden>
+        <h1>Outdoor Chef <em>Survival Challenge</em></h1>
+        <div class="panels">
+          <figure id="panel-one">
+            <div id="panel-a"></div>
+            <figcaption>Production dropped me here with a toque, a waiver, and a camera bolted to my head.</figcaption>
+          </figure>
+          <figure id="panel-two">
+            <div id="panel-b"></div>
+            <figcaption>They promised a kitchen. The kitchen is a concept at this stage. I will fix it with whatever I find.</figcaption>
+          </figure>
+        </div>
+        <p class="press">Press Enter</p>
+      </section>
+
+      <section id="ending" hidden>
+        <div id="plate"></div>
+        <article>
+          <p class="guide" id="review-guide"></p>
+          <h2>Rat-on-a-Stick, Bois Sauvage</h2>
+          <p id="review-cones"></p>
+          <p id="review-award"></p>
+          <blockquote>Smoke forward, with a finish of regret and thyme. Served at the temperature of the forest. Unapologetic.</blockquote>
+          <div class="columns">
+            <div>
+              <h3>Tonight's Menu</h3>
+              <ol id="menu"></ol>
+            </div>
+            <div>
+              <h3>Blooper Reel</h3>
+              <ul id="outtakes"></ul>
+              <p id="stats"></p>
+            </div>
+          </div>
+          <p class="again"><a href="./">Another episode</a></p>
+        </article>
+      </section>
     </main>
     <script type="module" src="/game/main.ts"></script>
   </body>
